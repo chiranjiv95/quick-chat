@@ -1,0 +1,7 @@
+# Node modules
+node_modules/
+
+# Optional cache folders
+.cache/
+dist/
+build/
