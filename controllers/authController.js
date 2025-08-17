@@ -34,13 +34,21 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     // 1. Check if user exists
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email }).select(
+      "+password"
+    );
+    console.log("login user", user);
 
     if (!user)
       return res.send({ message: "User does not exists", success: false });
 
+    console.log("req.body.password", req.body.password);
+    console.log("user.password", user.password);
+
     // 2. Match password
     const isValid = await bcrypt.compare(req.body.password, user.password);
+    console.log("isValid", isValid);
+
     if (!isValid)
       return res
         .status(400)
